@@ -1,0 +1,81 @@
+Here is a detailed report consolidating the findings from both the TFBertForSequenceClassification model and the baseline LSTM model:
+
+Model Training Report
+
+Objective: To train machine learning models for a multi-class text classification task with 5 possible class labels (0-4).
+ Two models were evaluated - a TFBertForSequenceClassification model using BERT, and a baseline LSTM model.
+
+I. TFBertForSequenceClassification Model
+
+Configuration:
+- BERT-base-uncased pre-trained model fine-tuned over 3 epochs 
+- Classification head for 5-class task
+
+Performance Metrics:
+- Accuracy: 
+    - Training accuracy started at 32.67% and increased marginally to 32.71% by epoch 3
+    - Validation accuracy remained steady at 33.04% across all epochs
+- F1 Score: 0.1643 (considerably low)
+
+Strengths:
+1. Stability: Consistent validation accuracy and loss, indicating no significant overfitting or underfitting.
+2. Pre-trained Features: Leveraging BERT's pre-trained model provided strong language understanding capabilities.
+
+Weaknesses:
+1. Low Performance: 33% accuracy and 0.1643 F1 score only slightly better than random guessing for a 5-class problem.
+2. High Loss: Loss started high at 9.0476 and increased, suggesting issues in the learning process.
+3. Minimal Improvement: Little metric change over epochs, indicating ineffective learning from training data.
+4. Time & Resources: Fine tuning the model took very long time and more GPU resources were use for fine tuning the model 
+
+Recommendations:
+- Data inspection and preprocessing for BERT compatibility
+- Increase training duration or adjust learning rate
+- Can try larger or domain-specific BERT variants  
+- Enhance model architecture with dropout, dense layers
+- Handle class imbalance via weighting, over/undersampling
+
+II. Baseline LSTM Model
+
+Configuration:
+- Embedding layer for 5000 vocabulary words
+- LSTM layer with 64 units
+- Dense output layer with 5 units and softmax
+
+Performance:
+- Training over 50 epochs
+- Training accuracy improved from 66.19% to 99.67%
+- Training loss reduced from 0.8514 to 0.0107
+- Validation accuracy dropped from 42.20% to 38.10% 
+- Validation loss increased from 1.7114 to 8.2080
+- Training time is also low when compared to BERT model
+
+Confusion Matrix Interpretation:
+- Diagonal values show correct predictions, highest for class 4 (5837)
+- Significant off-diagonal values indicate misclassifications
+    - E.g. 797 class 0 predicted as 4, 526 class 0 predicted as 1
+  
+Metrics:
+- Validation accuracy: 39.78% (low)
+- F1 Score: 0.3853 (low)
+
+Weaknesses:
+- Overfitting: High training accuracy, low validation accuracy
+- Low predictive power: Low F1 score, imbalanced precision/recall
+
+Recommendations:
+- Regularization techniques: Dropout, L1/L2 regularization
+- Cross-validation for stability evaluation
+- Class imbalance handling via loss weighting
+
+Summary
+
+Both the TFBertForSequenceClassification and LSTM models exhibited low performance metrics like accuracy 
+and F1 score on the 5-class text classification task. The BERT model struggled with high loss values and 
+minimal improvement over epochs, likely due to factors like inappropriate learning rates, 
+architectural limitations, or inadequate data preprocessing. The LSTM model, while achieving high training 
+accuracy, severely overfitted to the training data and generalized poorly to the validation set.
+
+To improve performance, key recommendations include:
+- Data handling: Preprocessing for BERT, augmentation, handling class imbalance
+- Model optimization: Learning rate tuning, regularization, architecture enhancements 
+- Utilization of techniques like cross-validation, fine-tuning, and exploring alternative pre-trained models (for BERT)
